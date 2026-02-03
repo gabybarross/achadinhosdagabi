@@ -43,7 +43,7 @@ git commit -m "Primeira versão do Achadinhos"
 
 # Conecta com seu repositório remoto (TROQUE PELO SEU LINK!)
 # O link aparece na página do GitHub logo após criar o repo (ex: https://github.com/SeuUsuario/achadinhos.git)
-git remote add origin https://github.com/gabybarross/achadinhosdagabi.git
+git remote add origin https://github.com/gabybarross/achadinhosdagabi
 
 # Envia para a nuvem
 git branch -M main

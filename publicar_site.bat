@@ -1,8 +1,8 @@
 @echo off
 echo --- ATUALIZANDO SITE ACHADINHOS ---
 
-echo 1. Gerando JSON atualizado...
-python gerar_site.py
+echo 1. Buscando ofertas e atualizando o site...
+python main.py
 
 echo.
 echo 2. Enviando para o GitHub...
