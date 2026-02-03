@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.env
+banco_ofertas_completo.csv
+Achadinhos.ipynb
+main - bkp.py
+import time.py
