@@ -5,6 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Achadinhos Shopee - Melhores Ofertas</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="As melhores ofertas e achadinhos da Shopee com descontos imperdíveis. Curadoria diária de produtos com alta avaliação e preços baixos.">
+    <meta name="keywords"
+        content="achadinhos shopee, ofertas shopee, cupom shopee, descontos, compras online, promoções">
+    <meta name="author" content="Gabi Barros">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gabybarross.github.io/achadinhosdagabi/">
+    <!-- Substitua pelo seu domínio real -->
+    <meta property="og:title" content="Achadinhos VIP - Ofertas Exclusivas Shopee">
+    <meta property="og:description"
+        content="Garimpei as melhores ofertas para você! Descontos reais, produtos testados e vendedores confiáveis. Entre e confira antes que acabe. 🔥">
+    <meta property="og:image" content="https://cf.shopee.com.br/file/br-11134207-7r98o-lm1096s738876c">
+    <!-- Exemplo de imagem atraente (logo ou produto destaque) -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Achadinhos VIP - Ofertas Exclusivas Shopee">
+    <meta property="twitter:description"
+        content="Garimpei as melhores ofertas para você! Descontos reais e produtos testados.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -195,6 +218,22 @@
             </p>
         </div>
 
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto mb-8 relative">
+            <input type="text" id="search-input" placeholder="🔍 Buscar oferta..."
+                class="w-full pl-5 pr-12 py-3 rounded-full border border-gray-200 shadow-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange focus:outline-none transition-all text-sm"
+                onkeyup="filterSearch(this.value)">
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-brand-orange transition-colors"
+                onclick="filterSearch(document.getElementById('search-input').value)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+        </div>
+
         <div class="flex flex-col lg:flex-row gap-8">
 
             <!-- Grid De Produtos -->
@@ -372,6 +411,23 @@
                 html += `<button onclick="filterCategory('${c}', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:border-gray-900 hover:text-gray-900 transition-all">${c}</button>`;
             });
             container.innerHTML = html;
+        }
+
+        function filterSearch(term) {
+            term = term.toLowerCase().trim();
+            const all = window.ACHADINHOS_OFERTAS || [];
+            const filtered = all.filter(p => p.titulo.toLowerCase().includes(term));
+
+            // Show/Hide Empty State
+            const emptyState = document.getElementById('empty-state');
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.innerHTML = `<p class="text-gray-400">Nenhum produto encontrado para "<strong>${term}</strong>".</p>`;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            renderProducts(filtered);
         }
 
         function filterCategory(cat, btn) {
