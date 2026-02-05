@@ -6,6 +6,7 @@ __pycache__/
 *.db
 antigos/
 tiktok/
+instagram_out/
 # Código Fonte (Protegido)
 *.py
 *.ipynb
