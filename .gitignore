@@ -5,6 +5,9 @@ __pycache__/
 *.csv
 *.db
 antigos/
+tiktok/
 # Código Fonte (Protegido)
 *.py
 *.ipynb
+
+ffmpeg.exe
