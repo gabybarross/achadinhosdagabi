@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "titulo": "Kit 3 Sabão Líquido Omo Lavagem Perfeita 3L",
+    "imagem_url": "https://m.media-amazon.com/images/I/61kG+y7Q0mL._AC_SL1000_.jpg",
+    "preco_original": "R$ 119,90",
+    "preco_promocional": "R$ 89,90",
+    "desconto": "25%",
+    "link_afiliado": "#"
+  },
+  {
+    "id": 2,
+    "titulo": "Fritadeira Sem Óleo Air Fryer Mondial 4L",
+    "imagem_url": "https://m.media-amazon.com/images/I/61N7m4I+S6L._AC_SL1000_.jpg",
+    "preco_original": "R$ 499,90",
+    "preco_promocional": "R$ 329,90",
+    "desconto": "34%",
+    "link_afiliado": "#"
+  },
+  {
+    "id": 3,
+    "titulo": "Kit 12 Detergentes Ypê Neutro 500ml",
+    "imagem_url": "https://m.media-amazon.com/images/I/61bM5yB8HCL._AC_SL1000_.jpg",
+    "preco_original": "R$ 35,90",
+    "preco_promocional": "R$ 24,90",
+    "desconto": "30%",
+    "link_afiliado": "#"
+  },
+  {
+    "id": 4,
+    "titulo": "Papel Higiênico Neve Toque de Seda (Leve 12 Pague 11)",
+    "imagem_url": "https://m.media-amazon.com/images/I/61S+jRz-HcL._AC_SL1000_.jpg",
+    "preco_original": "R$ 29,90",
+    "preco_promocional": "R$ 19,90",
+    "desconto": "33%",
+    "link_afiliado": "#"
+  },
+  {
+    "id": 5,
+    "titulo": "Café Torrado e Moído Pilão Tradicional 500g (Kit 3)",
+    "imagem_url": "https://m.media-amazon.com/images/I/61r5yQ7yWgL._AC_SL1000_.jpg",
+    "preco_original": "R$ 65,90",
+    "preco_promocional": "R$ 45,90",
+    "desconto": "30%",
+    "link_afiliado": "#"
+  },
+  {
+    "id": 6,
+    "titulo": "Chocolate KitKat Nestlé Ao Leite 41,5g (Caixa c/ 24)",
+    "imagem_url": "https://m.media-amazon.com/images/I/61Y1qJ+P20L._AC_SL1000_.jpg",
+    "preco_original": "R$ 89,90",
+    "preco_promocional": "R$ 59,90",
+    "desconto": "33%",
+    "link_afiliado": "#"
+  }
+]

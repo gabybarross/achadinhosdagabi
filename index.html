@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achadinhos Shopee - Melhores Ofertas</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="As melhores ofertas e achadinhos da Shopee com descontos imperdíveis. Curadoria diária de produtos com alta avaliação e preços baixos.">
+    <meta name="keywords"
+        content="achadinhos shopee, ofertas shopee, cupom shopee, descontos, compras online, promoções">
+    <meta name="author" content="Gabi Barros">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gabybarross.github.io/achadinhosdagabi/">
+    <!-- Substitua pelo seu domínio real -->
+    <meta property="og:title" content="Achadinhos VIP - Ofertas Exclusivas Shopee">
+    <meta property="og:description"
+        content="Garimpei as melhores ofertas para você! Descontos reais, produtos testados e vendedores confiáveis. Entre e confira antes que acabe. 🔥">
+    <meta property="og:image" content="https://cf.shopee.com.br/file/br-11134207-7r98o-lm1096s738876c">
+    <!-- Exemplo de imagem atraente (logo ou produto destaque) -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Achadinhos VIP - Ofertas Exclusivas Shopee">
+    <meta property="twitter:description"
+        content="Garimpei as melhores ofertas para você! Descontos reais e produtos testados.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#ff5722', // Shopee Orange standard
+                            dark: '#e64a19',
+                            bg: '#f8f9fa',
+                            text: '#212121',
+                            sub: '#757575'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px rgba(0,0,0,0.04)',
+                        'hover': '0 10px 25px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212121;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #ff5722 0%, #ff8a65 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Smooth Fade */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Modal Suggestion (Minimalist) -->
+    <div id="suggestion-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center">
+                <div
+                    class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md p-6 border border-gray-100">
+                    <div class="text-center mb-6">
+                        <div
+                            class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-brand-orange mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Encontrar Produto</h3>
+                        <p class="text-sm text-gray-500 mt-1">Diga o que você quer e nós buscamos a melhor oferta.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 uppercase tracking-wide mb-1">Produto
+                                Desejado</label>
+                            <input type="text" id="product-name"
+                                class="block w-full rounded-lg border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-brand-orange focus:ring-brand-orange sm:text-sm transition-colors"
+                                placeholder="Ex: Fone Bluetooth, Garrafa..." onkeypress="handleKeyPress(event)">
+                        </div>
+                        <button onclick="submitSuggestion()"
+                            class="w-full flex justify-center items-center gap-2 rounded-lg bg-brand-orange px-4 py-3 text-sm font-bold text-white shadow-soft hover:bg-brand-dark transition-all">
+                            Solicitar via WhatsApp
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                        <button onclick="closeModal()"
+                            class="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Nav -->
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer"
+                    onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div
+                        class="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center text-white font-bold">
+                        A</div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Achadinhos</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6">
+                    <span class="text-sm text-gray-500 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Ofertas do Dia
+                    </span>
+                    <!-- Header Button Removed as requested to move to sidebar? No, keep accessibility, add duplicate to sidebar as requested -->
+                    <button onclick="openModal()"
+                        class="px-5 py-2 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition-colors shadow-soft">
+                        Pedir Produto
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button (Simple Icon) -->
+                <div class="md:hidden">
+                    <button onclick="openModal()" class="p-2 text-brand-orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Bar (Sticky Sub-nav) -->
+        <div class="bg-white border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 py-2">
+                <div class="relative group">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar md:flex-wrap md:justify-center md:overflow-visible py-1 pr-12 md:pr-0"
+                        id="category-tabs">
+                        <!-- JS Injected -->
+                        <button
+                            class="px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 text-sm font-medium whitespace-nowrap">Carregando...</button>
+                    </div>
+                    <!-- Scroll Hint (Mobile Only) -->
+                    <div
+                        class="md:hidden absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Intro Text -->
+        <div id="intro-section" class="text-center mb-6 max-w-3xl mx-auto scroll-mt-32">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Curadoria de Ofertas VIP</h1>
+            <p class="text-gray-500 mb-4">
+                Selecionamos produtos com <span class="text-gray-800 font-semibold">alto volume de vendas</span>,
+                vendedores com <span class="text-gray-800 font-semibold">as melhores avaliações</span> e preços de
+                <span class="text-brand-orange font-bold">achadinhos</span> imperdíveis.
+            </p>
+            <p class="text-[10px] text-gray-400 bg-gray-50 inline-block px-3 py-1 rounded-full border border-gray-100">
+                ⚠️ Importante: Preços e descontos podem ser alterados pelo vendedor a qualquer momento.
+            </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto mb-8 relative">
+            <input type="text" id="search-input" placeholder="🔍 Buscar oferta..."
+                class="w-full pl-5 pr-12 py-3 rounded-full border border-gray-200 shadow-sm focus:border-brand-orange focus:ring-1 focus:ring-brand-orange focus:outline-none transition-all text-sm"
+                onkeyup="filterSearch(this.value)">
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-brand-orange transition-colors"
+                onclick="filterSearch(document.getElementById('search-input').value)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Grid De Produtos -->
+            <div class="flex-1">
+                <div id="products-grid"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 scroll-mt-36">
+                    <!-- Skeletons -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 h-80"></div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 h-80"></div>
+                </div>
+
+                <!-- Empty State (Hidden by default) -->
+                <div id="empty-state" class="hidden text-center py-20">
+                    <p class="text-gray-400">Nenhum produto encontrado nesta categoria.</p>
+                </div>
+            </div>
+
+            <!-- Sidebar (Desktop only) -->
+            <aside class="hidden lg:block w-80 shrink-0 space-y-6">
+                <div class="sticky top-40 space-y-6">
+                    <!-- Group Card -->
+                    <div
+                        class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft text-center group hover:border-green-200 transition-colors">
+                        <div
+                            class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-3 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5.38.307.747.636 1.089 1.002l.679.728.665.733c1.372 1.513 2.545 3.19 3.498 4.96.953-1.77 2.127-3.447 3.498-4.96l.665-.732.679-.729a10.835 10.835 0 0 0 1.09-1.002c-1.371 0-2.481-1.119-2.481-2.5 0-1.381 1.11-2.5 2.48-2.5 1.371 0 2.481 1.119 2.481 2.5 0 .285-.047.558-.133.813l.635-.052c1.78-.146 3.525.264 4.968 1.168.643.402 1.115 1.05 1.258 1.802.164.862-.158 1.745-.85 2.338l-4.174 3.578 1.343 5.373c.27 1.078-.13 2.213-1.022 2.894-.892.681-2.099.789-3.085.276L12 18.275l-4.576 2.406c-.985.513-2.193.405-3.085-.276-.892-.681-1.291-1.816-1.022-2.894l1.343-5.373-4.174-3.578c-.692-.593-1.014-1.476-.85-2.338.143-.752.615-1.4 1.258-1.802 1.443-.904 3.188-1.314 4.968-1.168l.635.052A2.506 2.506 0 0 0 4.98 3.5z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900">Grupo VIP</h4>
+                        <p class="text-xs text-gray-500 mb-4">Ofertas antes de todo mundo.</p>
+                        <a href="https://chat.whatsapp.com/SEU_LINK_AQUI" target="_blank"
+                            class="block w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-bold transition-colors">
+                            Entrar Agora
+                        </a>
+                    </div>
+
+                    <!-- Pedir Produto Sidebar (NEW) -->
+                    <div onclick="openModal()"
+                        class="cursor-pointer bg-white p-6 rounded-2xl border border-gray-100 shadow-soft text-center group hover:border-brand-orange/30 transition-all">
+                        <div
+                            class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mx-auto mb-3 group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900">Busca Específica</h4>
+                        <p class="text-xs text-gray-500 mb-4">Não achou? Peça pra gente.</p>
+                        <button
+                            class="w-full py-2.5 bg-gray-900 text-white rounded-lg text-sm font-bold transition-colors group-hover:bg-brand-orange">
+                            Pedir Produto
+                        </button>
+                    </div>
+
+                    <!-- Urgency Message (REPLACED TIMER) -->
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100 text-center">
+                        <p class="text-red-500 font-bold text-lg mb-1 leading-tight">🔥 Corra!</p>
+                        <p class="text-gray-600 text-xs text-center mt-2">As ofertas podem acabar a qualquer momento.
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-900 font-bold mb-2">Achadinhos</p>
+            <p class="text-sm text-gray-400">© 2024. Somos afiliados Shopee.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="ofertas.js"></script>
+    <script>
+        // --- Modal Logic ---
+        function openModal() {
+            const modal = document.getElementById('suggestion-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.transform').classList.remove('scale-95', 'opacity-0');
+                modal.querySelector('.transform').classList.add('scale-100', 'opacity-100');
+            }, 10);
+            document.getElementById('product-name').focus();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('suggestion-modal');
+            modal.querySelector('.transform').classList.remove('scale-100', 'opacity-100');
+            modal.querySelector('.transform').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        function handleKeyPress(e) { if (e.key === 'Enter') submitSuggestion(); }
+
+        function submitSuggestion() {
+            const produto = document.getElementById('product-name').value.trim();
+            const userNumber = "5561981177633"; // User Number
+
+            if (produto) {
+                const text = `Olá! 👋 Encontrei um produto que quero sugerir: *${produto}*`;
+                const link = `https://wa.me/${userNumber}?text=${encodeURIComponent(text)}`;
+
+                // UX Feedback
+                const btn = document.querySelector('#suggestion-modal button[onclick="submitSuggestion()"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Abrindo WhatsApp...';
+
+                window.open(link, '_blank');
+
+                setTimeout(() => {
+                    closeModal();
+                    document.getElementById('product-name').value = '';
+                    btn.innerHTML = originalText;
+                }, 1000);
+            }
+        }
+
+        function scrollToGrid() {
+            const navHeight = 140; // Approx height of sticky headers
+            const element = document.getElementById('intro-section');
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+
+        // --- Data Logic ---
+        function parseDate(dateStr) {
+            if (!dateStr) return 0;
+            const [day, month, yearTime] = dateStr.split('/');
+            const [year, time] = yearTime.split(' ');
+            return new Date(year, month - 1, day, ...time.split(':')).getTime();
+        }
+
+        function getDiscountPercent(p) {
+            if (!p.desconto) return 0;
+            return parseFloat(p.desconto.replace('%', '')) || 0;
+        }
+
+        function loadProducts() {
+            try {
+                if (typeof window.ACHADINHOS_OFERTAS !== 'undefined' && Array.isArray(window.ACHADINHOS_OFERTAS)) {
+                    let all = window.ACHADINHOS_OFERTAS;
+                    all.sort((a, b) => {
+                        const dateA = parseDate(a.data_coleta), dateB = parseDate(b.data_coleta);
+                        if (dateB !== dateA) return dateB - dateA;
+                        return getDiscountPercent(b) - getDiscountPercent(a);
+                    });
+                    renderCategories(all);
+                    renderProducts(all);
+                } else {
+                    document.getElementById('products-grid').innerHTML = '<p class="text-center col-span-full">Erro ao carregar ofertas.</p>';
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderCategories(products) {
+            const cats = new Set(products.map(p => p.categoria).filter(Boolean));
+            const container = document.getElementById('category-tabs');
+
+            let html = `<button onclick="filterCategory('all', this)" class="category-btn active px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap bg-gray-900 text-white shadow-soft transition-all">Tudo</button>`;
+
+            // Eventos Especiais (Smart Queue)
+            if (window.ACTIVE_EVENTS && window.ACTIVE_EVENTS.length > 0) {
+                window.ACTIVE_EVENTS.forEach(evt => {
+                    html += `<button onclick="filterCategory('event:${evt}', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap bg-gradient-to-r from-orange-400 to-pink-500 text-white border border-transparent hover:shadow-lg hover:scale-105 transition-all">✨ ${evt}</button>`;
+                });
+            }
+
+            cats.forEach(c => {
+                html += `<button onclick="filterCategory('${c}', this)" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:border-gray-900 hover:text-gray-900 transition-all">${c}</button>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterSearch(term) {
+            term = term.toLowerCase().trim();
+            const all = window.ACHADINHOS_OFERTAS || [];
+            const filtered = all.filter(p => p.titulo.toLowerCase().includes(term));
+
+            // Show/Hide Empty State
+            const emptyState = document.getElementById('empty-state');
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.innerHTML = `<p class="text-gray-400">Nenhum produto encontrado para "<strong>${term}</strong>".</p>`;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            renderProducts(filtered);
+        }
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.category-btn').forEach(b => {
+                // Reset style (Standard)
+                b.className = "category-btn px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:border-gray-900 hover:text-gray-900 transition-all";
+            });
+
+            // Check if it's an event button (keep gradient if so) or standard
+            if (cat.startsWith('event:')) {
+                btn.className = "category-btn active px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap bg-gradient-to-r from-orange-500 to-pink-600 text-white shadow-lg scale-105 transition-all";
+            } else {
+                btn.className = "category-btn active px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap bg-gray-900 text-white shadow-soft transition-all";
+            }
+
+            const all = window.ACHADINHOS_OFERTAS;
+            let filtered;
+
+            if (cat === 'all') {
+                filtered = all;
+            } else if (cat.startsWith('event:')) {
+                const eventName = cat.replace('event:', '');
+                filtered = all.filter(p => p.evento === eventName);
+            } else {
+                filtered = all.filter(p => p.categoria === cat);
+            }
+
+            renderProducts(filtered);
+            scrollToGrid();
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                return;
+            } else {
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            products.forEach((p, i) => {
+                const card = document.createElement('div');
+                card.className = "fade-in bg-white rounded-2xl border border-gray-100 hover:border-brand-orange/30 overflow-hidden relative flex flex-col group transition-all duration-300 hover:shadow-hover";
+                card.style.animationDelay = `${i * 50}ms`;
+
+                const discount = p.desconto ? `<span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md z-10 shadow-sm">${p.desconto} OFF</span>` : '';
+
+                // Sales Count Logic
+                let salesHtml = '';
+                if (p.vendas) {
+                    const v = p.vendas.toString().toLowerCase();
+                    const isHot = v.includes('k') || (parseInt(v) > 1000);
+
+                    const icon = isHot ? '<span class="mr-0.5 text-sm">🔥</span>' : `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>`;
+
+                    const rawVendas = p.vendas.replace(/vendidos/gi, '').trim();
+                    const text = isHot ? `Mais de ${rawVendas} itens vendidos` : `${rawVendas} vendidos`;
+                    const style = isHot ? "text-orange-600 font-bold bg-orange-50 px-2 py-0.5 rounded-md border border-orange-100" : "text-gray-500";
+
+                    salesHtml = `
+                    <div class="flex items-center text-[10px] ${style} mt-1 w-max">
+                        ${icon}
+                        <span>${text}</span>
+                    </div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="relative aspect-square bg-gray-50 overflow-hidden">
+                        ${discount}
+                        <img src="${p.imagem_url}" alt="${p.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <a href="${p.link_afiliado}" target="_blank" class="absolute bottom-3 right-3 bg-white/90 backdrop-blur text-brand-text p-2 rounded-full shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-brand-orange hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </a>
+                    </div>
+                    
+                    <div class="p-4 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-1">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">${p.loja || 'Shopee'}</p>
+                            <div class="flex items-center text-orange-400 text-xs font-bold gap-0.5">
+                                <span>★</span><span>${p.nota}</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-brand-orange transition-colors" title="${p.titulo}">${p.titulo}</h3>
+                        
+                        <!-- Sales Count -->
+                        ${salesHtml}
+
+                        <div class="mt-auto pt-3 flex flex-col gap-2">
+                            <div>
+                                ${p.preco_original ? `<p class="text-xs text-gray-400 line-through">De ${p.preco_original}</p>` : ''}
+                                <p class="text-lg font-bold text-gray-900 flex flex-wrap items-baseline gap-1 leading-tight">
+                                    ${p.preco_promocional.replace('R$', '<span class="text-xs font-medium text-gray-500">R$</span>')}
+                                </p>
+                            </div>
+                            <a href="${p.link_afiliado}" target="_blank" class="w-full text-center py-2 bg-brand-orange text-white text-xs font-bold rounded-lg hover:bg-brand-dark transition-colors shadow-sm">
+                                Compre Agora
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Removed Timer Start Init since element is gone
+        function startTimer() {
+            // Optional: kept function structure but safe-guarded
+            const el = document.getElementById('timer');
+            if (!el) return;
+            // Logic won't run as el is null now
+        }
+
+        // Deep Linking Logic
+        function startDeepLinking() {
+            const params = new URLSearchParams(window.location.search);
+            const cat = params.get('cat');
+            const evt = params.get('evt');
+            const q = params.get('q'); // Search query
+
+            let targetBtn = null;
+
+            if (q) {
+                // Modo Busca
+                const term = decodeURIComponent(q);
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = term; // Preenche o campo visualmente
+                    filterSearch(term); // Executa a busca
+                }
+            } else if (evt) {
+                // Modo Evento
+                const eventName = decodeURIComponent(evt);
+                const selector = `button[onclick*="'event:${eventName}'"]`;
+                targetBtn = document.querySelector(selector);
+            } else if (cat) {
+                // Modo Categoria
+                const catName = decodeURIComponent(cat);
+                const selector = `button[onclick*="'${catName}'"]`;
+                targetBtn = document.querySelector(selector);
+            }
+
+            if (targetBtn) {
+                targetBtn.click();
+            }
+        }
+
+        loadProducts();
+        startDeepLinking(); // Inicializa Deep Link após carregar produtos
+    </script>
+</body>
+
+</html>
