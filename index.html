@@ -163,10 +163,17 @@
         <!-- Category Bar (Sticky Sub-nav) -->
         <div class="bg-white border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 py-2">
-                <div class="flex flex-wrap gap-2 justify-center" id="category-tabs">
-                    <!-- JS Injected -->
-                    <button
-                        class="px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 text-sm font-medium whitespace-nowrap">Carregando...</button>
+                <div class="relative group">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar md:flex-wrap md:justify-center md:overflow-visible py-1 pr-12 md:pr-0"
+                        id="category-tabs">
+                        <!-- JS Injected -->
+                        <button
+                            class="px-4 py-1.5 rounded-full bg-gray-100 text-gray-500 text-sm font-medium whitespace-nowrap">Carregando...</button>
+                    </div>
+                    <!-- Scroll Hint (Mobile Only) -->
+                    <div
+                        class="md:hidden absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none">
+                    </div>
                 </div>
             </div>
         </div>
