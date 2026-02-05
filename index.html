@@ -504,11 +504,16 @@
                         <!-- Sales Count -->
                         ${salesHtml}
 
-                        <div class="mt-auto pt-3">
-                            ${p.preco_original ? `<p class="text-xs text-gray-400 line-through">De ${p.preco_original}</p>` : ''}
-                            <p class="text-lg font-bold text-gray-900 flex items-baseline gap-1">
-                                ${p.preco_promocional.replace('R$', '<span class="text-xs font-medium text-gray-500">R$</span>')}
-                            </p>
+                        <div class="mt-auto pt-3 flex flex-col gap-2">
+                            <div>
+                                ${p.preco_original ? `<p class="text-xs text-gray-400 line-through">De ${p.preco_original}</p>` : ''}
+                                <p class="text-lg font-bold text-gray-900 flex flex-wrap items-baseline gap-1 leading-tight">
+                                    ${p.preco_promocional.replace('R$', '<span class="text-xs font-medium text-gray-500">R$</span>')}
+                                </p>
+                            </div>
+                            <a href="${p.link_afiliado}" target="_blank" class="w-full text-center py-2 bg-brand-orange text-white text-xs font-bold rounded-lg hover:bg-brand-dark transition-colors shadow-sm">
+                                Compre Agora
+                            </a>
                         </div>
                     </div>
                 `;
