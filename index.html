@@ -558,15 +558,25 @@
             const params = new URLSearchParams(window.location.search);
             const cat = params.get('cat');
             const evt = params.get('evt');
+            const q = params.get('q'); // Search query
 
             let targetBtn = null;
 
-            if (evt) {
+            if (q) {
+                // Modo Busca
+                const term = decodeURIComponent(q);
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = term; // Preenche o campo visualmente
+                    filterSearch(term); // Executa a busca
+                }
+            } else if (evt) {
+                // Modo Evento
                 const eventName = decodeURIComponent(evt);
-                // Busca botão com o evento específico
                 const selector = `button[onclick*="'event:${eventName}'"]`;
                 targetBtn = document.querySelector(selector);
             } else if (cat) {
+                // Modo Categoria
                 const catName = decodeURIComponent(cat);
                 const selector = `button[onclick*="'${catName}'"]`;
                 targetBtn = document.querySelector(selector);
