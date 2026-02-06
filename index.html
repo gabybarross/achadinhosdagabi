@@ -234,6 +234,30 @@
             </button>
         </div>
 
+        <!-- Mobile Actions (VIP & Pedir) - Visible below lg -->
+        <div class="lg:hidden grid grid-cols-2 gap-3 mb-6">
+            <!-- Grupo VIP -->
+            <a href="https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t" target="_blank"
+                class="flex items-center justify-center gap-2 p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 font-bold text-sm hover:bg-green-100 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5.38.307.747.636 1.089 1.002l.679.728.665.733c1.372 1.513 2.545 3.19 3.498 4.96.953-1.77 2.127-3.447 3.498-4.96l.665-.732.679-.729a10.835 10.835 0 0 0 1.09-1.002c-1.371 0-2.481-1.119-2.481-2.5 0-1.381 1.11-2.5 2.48-2.5 1.371 0 2.481 1.119 2.481 2.5 0 .285-.047.558-.133.813l.635-.052c1.78-.146 3.525.264 4.968 1.168.643.402 1.115 1.05 1.258 1.802.164.862-.158 1.745-.85 2.338l-4.174 3.578 1.343 5.373c.27 1.078-.13 2.213-1.022 2.894-.892.681-2.099.789-3.085.276L12 18.275l-4.576 2.406c-.985.513-2.193.405-3.085-.276-.892-.681-1.291-1.816-1.022-2.894l1.343-5.373-4.174-3.578c-.692-.593-1.014-1.476-.85-2.338.143-.752.615-1.4 1.258-1.802 1.443-.904 3.188-1.314 4.968-1.168l.635.052A2.506 2.506 0 0 0 4.98 3.5z" />
+                </svg>
+                Grupo VIP
+            </a>
+
+            <!-- Pedir Produto -->
+            <button onclick="openModal()"
+                class="flex items-center justify-center gap-2 p-3 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                Pedir Produto
+            </button>
+        </div>
+
         <div class="flex flex-col lg:flex-row gap-8">
 
             <!-- Grid De Produtos -->
