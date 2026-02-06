@@ -1,4 +1,5 @@
 @echo off
+cd /d "d:\04_APPs\Achadinhos"
 echo --- ATUALIZANDO SITE ACHADINHOS ---
 
 echo 1. Buscando ofertas e atualizando o site (main.py)...
