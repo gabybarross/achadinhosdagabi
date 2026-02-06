@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Copiar Mensagens WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-priority {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 12px 20px;
+            border-radius: 12px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #ddd;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.active::after {
+            left: 27px;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filters-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card.priority {
+            border: 2px solid #f5576c;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.05) 0%, rgba(245, 87, 108, 0.05) 100%);
+        }
+
+        .product-card.priority::before {
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            transform: scaleX(1);
+        }
+
+        .priority-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .product-header {
+            margin-bottom: 16px;
+            padding-right: 80px;
+        }
+
+        .product-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .product-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 16px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .price-current {
+            font-size: 28px;
+            font-weight: 800;
+            color: #28a745;
+        }
+
+        .price-original {
+            font-size: 18px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .product-meta {
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            animation: success-bounce 0.5s;
+        }
+
+        @keyframes success-bounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .product-card.priority .copy-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .product-card.priority .copy-btn:hover {
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            border-radius: 20px;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .no-products-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Admin - Copiar Mensagens WhatsApp</h1>
+            <p class="subtitle">Clique nos botões para copiar mensagens formatadas. Produtos marcados aparecem primeiro!
+                ⭐</p>
+            <div class="stats">
+                <div class="stat">
+                    <span>📦</span>
+                    <span>Total: <strong id="totalCount">0</strong></span>
+                </div>
+                <div class="stat">
+                    <span>🔍</span>
+                    <span>Visíveis: <strong id="filteredCount">0</strong></span>
+                </div>
+                <div class="stat stat-priority">
+                    <span>⭐</span>
+                    <span>Prioritários: <strong id="priorityCount">0</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls">
+            <div class="controls-row">
+                <div class="toggle-container">
+                    <div class="toggle" id="priorityToggle"></div>
+                    <span class="toggle-label">Mostrar só prioritários</span>
+                </div>
+            </div>
+            <div class="filters-grid" style="margin-top: 20px;">
+                <button class="filter-btn active" data-category="todos">📌 Todos</button>
+                <button class="filter-btn" data-category="Moda Feminina">👗 Moda Feminina</button>
+                <button class="filter-btn" data-category="Moda Masculina">👔 Moda Masculina</button>
+                <button class="filter-btn" data-category="Mãe e Bebê">👶 Mãe e Bebê</button>
+                <button class="filter-btn" data-category="Mercado & Despensa">🛒 Mercado</button>
+                <button class="filter-btn" data-category="Casa">🏠 Casa</button>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <div class="no-products">
+                <div class="no-products-icon">⏳</div>
+                <div>Carregando produtos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allProducts = [];
+        let currentFilter = 'todos';
+        let showOnlyPriority = false;
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('ofertas.js');
+                const text = await response.text();
+                const jsonText = text.replace('const allOffers = ', '').replace(/;$/, '');
+                allProducts = JSON.parse(jsonText);
+
+                document.getElementById('totalCount').textContent = allProducts.length;
+                updatePriorityCount();
+                renderProducts();
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                document.getElementById('productsGrid').innerHTML =
+                    '<div class="no-products"><div class="no-products-icon">❌</div><div>Erro ao carregar produtos. Verifique se ofertas.js existe.</div></div>';
+            }
+        }
+
+        function updatePriorityCount() {
+            const priorityCount = allProducts.filter(p =>
+                p.enviarWhatsApp === 'x' || p.enviarWhatsApp === 'X' || p.priority === true
+            ).length;
+            document.getElementById('priorityCount').textContent = priorityCount;
+        }
+
+        function isPriority(product) {
+            return product.enviarWhatsApp === 'x' ||
+                product.enviarWhatsApp === 'X' ||
+                product.priority === true;
+        }
+
+        function formatMessage(product) {
+            const productName = product.productName || 'Produto';
+            const currentPrice = product.currentPrice ?
+                `R$ ${parseFloat(product.currentPrice).toFixed(2).replace('.', ',')}` :
+                'Preço sob consulta';
+            const link = product.offerLink || '#';
+
+            let message = `🎯 *${productName}*\n\n`;
+            message += `💰 *${currentPrice}*\n`;
+
+            if (product.originalPrice && product.originalPrice > product.currentPrice) {
+                const discount = Math.round(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
+                message += `🏷️ De: ~R$ ${parseFloat(product.originalPrice).toFixed(2).replace('.', ',')}~ (-${discount}%)\n`;
+            }
+
+            message += `\n🔗 ${link}`;
+
+            return message;
+        }
+
+        function copyToClipboard(text, button) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopied(button);
+                }).catch(() => {
+                    fallbackCopy(text, button);
+                });
+            } else {
+                fallbackCopy(text, button);
+            }
+        }
+
+        function fallbackCopy(text, button) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                showCopied(button);
+            } catch (err) {
+                alert('Erro ao copiar. Tente selecionar manualmente.');
+            }
+
+            document.body.removeChild(textarea);
+        }
+
+        function showCopied(button) {
+            const originalText = button.textContent;
+            button.textContent = '✅ Copiado!';
+            button.classList.add('copied');
+
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+
+            let filtered = allProducts;
+
+            // Filtrar por categoria
+            if (currentFilter !== 'todos') {
+                filtered = filtered.filter(p => p.niche === currentFilter);
+            }
+
+            // Filtrar por prioridade se toggle ativo
+            if (showOnlyPriority) {
+                filtered = filtered.filter(p => isPriority(p));
+            }
+
+            // Ordenar: prioritários primeiro
+            filtered.sort((a, b) => {
+                const aPriority = isPriority(a) ? 1 : 0;
+                const bPriority = isPriority(b) ? 1 : 0;
+                return bPriority - aPriority;
+            });
+
+            document.getElementById('filteredCount').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-products">
+                        <div class="no-products-icon">🔍</div>
+                        <div>${showOnlyPriority ? 'Nenhum produto prioritário encontrado.' : 'Nenhum produto encontrado nesta categoria.'}</div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const message = formatMessage(product);
+                const discount = product.originalPrice && product.originalPrice > product.currentPrice ?
+                    Math.round(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100) : 0;
+                const priority = isPriority(product);
+
+                return `
+                    <div class="product-card ${priority ? 'priority' : ''}">
+                        ${priority ? '<div class="priority-badge">⭐ Prioritário</div>' : ''}
+                        <div class="product-header">
+                            <div class="product-title">${product.productName || 'Produto'}</div>
+                            <div class="product-badge">${product.niche || 'Geral'}</div>
+                        </div>
+                        
+                        <div class="product-info">
+                            <div class="price-row">
+                                <div class="price-current">R$ ${parseFloat(product.currentPrice || 0).toFixed(2).replace('.', ',')}</div>
+                                ${product.originalPrice && product.originalPrice > product.currentPrice ?
+                        `<div class="price-original">R$ ${parseFloat(product.originalPrice).toFixed(2).replace('.', ',')}</div>
+                                     <div class="discount-badge">-${discount}%</div>` : ''}
+                            </div>
+                            <div class="product-meta">
+                                ${product.shopName ? `<div class="meta-item">🏪 ${product.shopName}</div>` : ''}
+                                ${product.salesCount ? `<div class="meta-item">📦 ${product.salesCount} vendidos</div>` : ''}
+                            </div>
+                        </div>
+                        
+                        <button class="copy-btn" onclick='copyToClipboard(\`${message.replace(/`/g, '\\`')}\`, this)'>
+                            📋 Copiar Mensagem
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle prioridade
+        document.getElementById('priorityToggle').addEventListener('click', function () {
+            this.classList.toggle('active');
+            showOnlyPriority = this.classList.contains('active');
+            renderProducts();
+        });
+
+        // Filtros de categoria
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.category;
+                renderProducts();
+            });
+        });
+
+        // Carregar produtos ao iniciar
+        loadProducts();
+    </script>
+</body>
+
+</html>

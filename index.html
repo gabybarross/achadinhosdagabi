@@ -512,12 +512,8 @@
         };
 
         function updateWhatsAppLinks(categoryName) {
-            console.log("Categoria Selecionada:", categoryName);
-            console.log("Grupos Configurados:", WHATSAPP_GROUPS);
-
             // Pega o link específico se existir, senão pega o default
             const link = WHATSAPP_GROUPS[categoryName] || WHATSAPP_GROUPS["default"];
-            console.log("Link Final:", link);
 
             // Atualiza botões (Desktop e Mobile)
             const btnMobile = document.getElementById('btn-whatsapp-mobile');

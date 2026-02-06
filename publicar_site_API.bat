@@ -7,7 +7,7 @@ python main.py
 
 echo.
 echo 2. Enviando atualizacoes para o GitHub...
-git add ofertas.js banco_ofertas_completo.csv
+git add ofertas.js banco_ofertas_completo.csv admin_copiar_mensagens.html
 git commit -m "Atualizacao rapida (Manual)"
 git push origin main
 

@@ -1,0 +1,17 @@
+LISTA DE GRUPOS ENCONTRADOS
+===========================
+
+1. Moda Feminina: +vendidos
+   ID: 120363405419190261@g.us
+
+2. Mãe & Bebê: +vendidos
+   ID: 120363421911809504@g.us
+
+3. Moda Masculina:+vendidos
+   ID: 120363406572551071@g.us
+
+**Configuração Aplicada:**
+- Moda Feminina -> Envia para ID final 261
+- Moda Masculina -> Envia para ID final 071
+- Mãe e Bebê -> Envia para ID final 504
+- Outros -> Envia para Moda Feminina (Padrão)

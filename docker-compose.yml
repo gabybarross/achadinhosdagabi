@@ -2,20 +2,31 @@ version: '3.8'
 
 services:
   evolution-api:
-    image: atendai/evolution-api:latest
+    image: atendai/evolution-api:v2.1.1
     container_name: evolution_api
     restart: always
     ports:
       - "8080:8080"
     environment:
-      - AUTHENTICATION_API_KEY=${EVOLUTION_API_KEY}
+      # Chave de acesso (Mestra)
+      - AUTHENTICATION_API_KEY=sua_chave_mestra_123
+
+      # Versao MAIS RECENTE do WhatsApp (wppconnect.io)
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1033053001
+
+      # Banco de Dados (Configuracao Dupla para garantir)
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION_URI=postgresql://evolution:evolution@postgres:5432/evolution
+      - DATABASE_CONNECTION_URI=postgresql://evolution:evolution@postgres:5432/evolution?schema=public
+      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolution?schema=public
+
+      # Persistencia de Dados do Whats
       - DATABASE_SAVE_DATA_INSTANCE=true
       - DATABASE_SAVE_DATA_NEW_MESSAGE=true
       - DATABASE_SAVE_MESSAGE_UPDATE=true
       - DATABASE_SAVE_DATA_CONTACTS=true
       - DATABASE_SAVE_DATA_CHATS=true
+
+      # Redis (Cache)
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
     depends_on:
