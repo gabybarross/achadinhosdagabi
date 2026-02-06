@@ -237,7 +237,8 @@
         <!-- Mobile Actions (VIP & Pedir) - Visible below lg -->
         <div class="lg:hidden grid grid-cols-2 gap-3 mb-6">
             <!-- Grupo VIP -->
-            <a href="https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t" target="_blank"
+            <a id="btn-whatsapp-mobile" href="https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t"
+                target="_blank"
                 class="flex items-center justify-center gap-2 p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 font-bold text-sm hover:bg-green-100 transition-colors shadow-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -291,7 +292,8 @@
                         </div>
                         <h4 class="font-bold text-gray-900">Grupo VIP</h4>
                         <p class="text-xs text-gray-500 mb-4">Ofertas antes de todo mundo.</p>
-                        <a href="https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t" target="_blank"
+                        <a id="btn-whatsapp-desktop" href="https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t"
+                            target="_blank"
                             class="block w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-bold transition-colors">
                             Entrar Agora
                         </a>
@@ -491,7 +493,34 @@
             }
 
             renderProducts(filtered);
+            updateWhatsAppLinks(cat === 'all' ? 'default' : cat.replace('event:', ''));
             scrollToGrid();
+        }
+
+        // --- CONFIGURAÇÃO DE GRUPOS WHATSAPP POR NICHO (EDITÁVEL) ---
+        const WHATSAPP_GROUPS = {
+            "default": "https://chat.whatsapp.com/KDhxGx6UVXR8SxxTVVVFri?mode=gi_t", // Link padrão (Geral)
+
+            // Exemplos (Adicione seus links aqui):
+            // "Mercado & Despensa": "LINK_MERCADO",
+
+            // "Carnaval": "LINK_CARNAVAL",
+            "Moda Masculina": "https://chat.whatsapp.com/G7fUXInK7n4A6TZHZh9GbP",
+            "Moda Feminina": "https://chat.whatsapp.com/EquotxkZJ8H3ihnqEl44Fp",
+            "Mãe e Bebê": "https://chat.whatsapp.com/EquotxkZJ8H3ihnqEl44Fp"
+
+        };
+
+        function updateWhatsAppLinks(categoryName) {
+            // Pega o link específico se existir, senão pega o default
+            const link = WHATSAPP_GROUPS[categoryName] || WHATSAPP_GROUPS["default"];
+
+            // Atualiza botões (Desktop e Mobile)
+            const btnMobile = document.getElementById('btn-whatsapp-mobile');
+            const btnDesktop = document.getElementById('btn-whatsapp-desktop');
+
+            if (btnMobile) btnMobile.href = link;
+            if (btnDesktop) btnDesktop.href = link;
         }
 
         function renderProducts(products) {
