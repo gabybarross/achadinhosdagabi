@@ -36,7 +36,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 10px;
@@ -79,13 +78,6 @@
             margin-bottom: 30px;
         }
 
-        .controls-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
         .toggle-container {
             display: flex;
             align-items: center;
@@ -93,6 +85,7 @@
             background: #f8f9fa;
             padding: 12px 20px;
             border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         .toggle {
@@ -146,21 +139,7 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
         }
 
         .filter-btn:hover {
@@ -186,26 +165,8 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s;
             position: relative;
-            overflow: hidden;
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s;
-        }
-
-        .product-card:hover::before {
-            transform: scaleX(1);
         }
 
         .product-card:hover {
@@ -216,11 +177,6 @@
         .product-card.priority {
             border: 2px solid #f5576c;
             background: linear-gradient(135deg, rgba(240, 147, 251, 0.05) 0%, rgba(245, 87, 108, 0.05) 100%);
-        }
-
-        .product-card.priority::before {
-            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-            transform: scaleX(1);
         }
 
         .priority-badge {
@@ -234,7 +190,6 @@
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
             animation: pulse 2s infinite;
         }
@@ -318,12 +273,6 @@
             flex-wrap: wrap;
         }
 
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
         .copy-btn {
             width: 100%;
             padding: 16px;
@@ -334,7 +283,7 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
             margin-top: 20px;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
@@ -342,10 +291,6 @@
         .copy-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .copy-btn:active {
-            transform: scale(0.98);
         }
 
         .copy-btn.copied {
@@ -367,10 +312,6 @@
 
         .product-card.priority .copy-btn {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .product-card.priority .copy-btn:hover {
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
         }
 
         .no-products {
@@ -420,13 +361,11 @@
         </header>
 
         <div class="controls">
-            <div class="controls-row">
-                <div class="toggle-container">
-                    <div class="toggle" id="priorityToggle"></div>
-                    <span class="toggle-label">Mostrar só prioritários</span>
-                </div>
+            <div class="toggle-container">
+                <div class="toggle" id="priorityToggle"></div>
+                <span class="toggle-label">Mostrar só prioritários</span>
             </div>
-            <div class="filters-grid" style="margin-top: 20px;">
+            <div class="filters-grid">
                 <button class="filter-btn active" data-category="todos">📌 Todos</button>
                 <button class="filter-btn" data-category="Moda Feminina">👗 Moda Feminina</button>
                 <button class="filter-btn" data-category="Moda Masculina">👔 Moda Masculina</button>
@@ -444,25 +383,24 @@
         </div>
     </div>
 
+    <!-- Carrega ofertas.js que define window.ACHADINHOS_OFERTAS -->
+    <script src="ofertas.js"></script>
+
     <script>
         let allProducts = [];
         let currentFilter = 'todos';
         let showOnlyPriority = false;
 
-        async function loadProducts() {
+        function loadProducts() {
             try {
-                const response = await fetch('ofertas.js');
-                const text = await response.text();
-                const jsonText = text.replace('const allOffers = ', '').replace(/;$/, '');
-                allProducts = JSON.parse(jsonText);
-
+                allProducts = window.ACHADINHOS_OFERTAS || [];
                 document.getElementById('totalCount').textContent = allProducts.length;
                 updatePriorityCount();
                 renderProducts();
             } catch (error) {
                 console.error('Erro ao carregar produtos:', error);
                 document.getElementById('productsGrid').innerHTML =
-                    '<div class="no-products"><div class="no-products-icon">❌</div><div>Erro ao carregar produtos. Verifique se ofertas.js existe.</div></div>';
+                    '<div class="no-products"><div class="no-products-icon">❌</div><div>Erro ao carregar produtos.</div></div>';
             }
         }
 
@@ -474,28 +412,23 @@
         }
 
         function isPriority(product) {
-            return product.enviarWhatsApp === 'x' ||
-                product.enviarWhatsApp === 'X' ||
-                product.priority === true;
+            return product.enviarWhatsApp === 'x' || product.enviarWhatsApp === 'X' || product.priority === true;
         }
 
         function formatMessage(product) {
-            const productName = product.productName || 'Produto';
-            const currentPrice = product.currentPrice ?
-                `R$ ${parseFloat(product.currentPrice).toFixed(2).replace('.', ',')}` :
-                'Preço sob consulta';
-            const link = product.offerLink || '#';
+            const productName = product.titulo || product.productName || 'Produto';
+            const currentPrice = product.preco || product.currentPrice || 0;
+            const link = product.link || product.offerLink || '#';
 
             let message = `🎯 *${productName}*\n\n`;
-            message += `💰 *${currentPrice}*\n`;
+            message += `💰 *R$ ${parseFloat(currentPrice).toFixed(2).replace('.', ',')}*\n`;
 
-            if (product.originalPrice && product.originalPrice > product.currentPrice) {
-                const discount = Math.round(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
-                message += `🏷️ De: ~R$ ${parseFloat(product.originalPrice).toFixed(2).replace('.', ',')}~ (-${discount}%)\n`;
+            if (product.precoOriginal && product.precoOriginal > currentPrice) {
+                const discount = Math.round(((product.precoOriginal - currentPrice) / product.precoOriginal) * 100);
+                message += `🏷️ De: ~R$ ${parseFloat(product.precoOriginal).toFixed(2).replace('.', ',')}~ (-${discount}%)\n`;
             }
 
             message += `\n🔗 ${link}`;
-
             return message;
         }
 
@@ -523,7 +456,7 @@
                 document.execCommand('copy');
                 showCopied(button);
             } catch (err) {
-                alert('Erro ao copiar. Tente selecionar manualmente.');
+                alert('Erro ao copiar.');
             }
 
             document.body.removeChild(textarea);
@@ -542,20 +475,16 @@
 
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
-
             let filtered = allProducts;
 
-            // Filtrar por categoria
             if (currentFilter !== 'todos') {
-                filtered = filtered.filter(p => p.niche === currentFilter);
+                filtered = filtered.filter(p => p.nicho === currentFilter || p.niche === currentFilter);
             }
 
-            // Filtrar por prioridade se toggle ativo
             if (showOnlyPriority) {
                 filtered = filtered.filter(p => isPriority(p));
             }
 
-            // Ordenar: prioritários primeiro
             filtered.sort((a, b) => {
                 const aPriority = isPriority(a) ? 1 : 0;
                 const bPriority = isPriority(b) ? 1 : 0;
@@ -568,7 +497,7 @@
                 grid.innerHTML = `
                     <div class="no-products">
                         <div class="no-products-icon">🔍</div>
-                        <div>${showOnlyPriority ? 'Nenhum produto prioritário encontrado.' : 'Nenhum produto encontrado nesta categoria.'}</div>
+                        <div>${showOnlyPriority ? 'Nenhum produto prioritário' : 'Nenhum produto nesta categoria'}</div>
                     </div>
                 `;
                 return;
@@ -576,28 +505,32 @@
 
             grid.innerHTML = filtered.map(product => {
                 const message = formatMessage(product);
-                const discount = product.originalPrice && product.originalPrice > product.currentPrice ?
-                    Math.round(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100) : 0;
+                const currentPrice = product.preco || product.currentPrice || 0;
+                const originalPrice = product.precoOriginal || product.originalPrice;
+                const discount = originalPrice && originalPrice > currentPrice ?
+                    Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
                 const priority = isPriority(product);
+                const title = product.titulo || product.productName || 'Produto';
+                const niche = product.nicho || product.niche || 'Geral';
 
                 return `
                     <div class="product-card ${priority ? 'priority' : ''}">
                         ${priority ? '<div class="priority-badge">⭐ Prioritário</div>' : ''}
                         <div class="product-header">
-                            <div class="product-title">${product.productName || 'Produto'}</div>
-                            <div class="product-badge">${product.niche || 'Geral'}</div>
+                            <div class="product-title">${title}</div>
+                            <div class="product-badge">${niche}</div>
                         </div>
                         
                         <div class="product-info">
                             <div class="price-row">
-                                <div class="price-current">R$ ${parseFloat(product.currentPrice || 0).toFixed(2).replace('.', ',')}</div>
-                                ${product.originalPrice && product.originalPrice > product.currentPrice ?
-                        `<div class="price-original">R$ ${parseFloat(product.originalPrice).toFixed(2).replace('.', ',')}</div>
+                                <div class="price-current">R$ ${parseFloat(currentPrice).toFixed(2).replace('.', ',')}</div>
+                                ${originalPrice && originalPrice > currentPrice ?
+                        `<div class="price-original">R$ ${parseFloat(originalPrice).toFixed(2).replace('.', ',')}</div>
                                      <div class="discount-badge">-${discount}%</div>` : ''}
                             </div>
                             <div class="product-meta">
-                                ${product.shopName ? `<div class="meta-item">🏪 ${product.shopName}</div>` : ''}
-                                ${product.salesCount ? `<div class="meta-item">📦 ${product.salesCount} vendidos</div>` : ''}
+                                ${product.loja || product.shopName ? `<div>🏪 ${product.loja || product.shopName}</div>` : ''}
+                                ${product.vendas || product.salesCount ? `<div>📦 ${product.vendas || product.salesCount} vendidos</div>` : ''}
                             </div>
                         </div>
                         
@@ -609,14 +542,12 @@
             }).join('');
         }
 
-        // Toggle prioridade
         document.getElementById('priorityToggle').addEventListener('click', function () {
             this.classList.toggle('active');
             showOnlyPriority = this.classList.contains('active');
             renderProducts();
         });
 
-        // Filtros de categoria
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -626,8 +557,12 @@
             });
         });
 
-        // Carregar produtos ao iniciar
-        loadProducts();
+        // Aguarda carregamento do ofertas.js
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadProducts);
+        } else {
+            loadProducts();
+        }
     </script>
 </body>
 
