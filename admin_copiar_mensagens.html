@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -33,9 +33,10 @@
         }
 
         h1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 10px;
@@ -54,20 +55,21 @@
         }
 
         .stat {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             color: white;
             padding: 12px 24px;
             border-radius: 12px;
             font-weight: 600;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
         }
 
         .stat-priority {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-sent {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
 
         .controls {
@@ -132,9 +134,9 @@
 
         .filter-btn {
             padding: 12px 24px;
-            border: 2px solid #667eea;
+            border: 2px solid #ff5722;
             background: white;
-            color: #667eea;
+            color: #ff5722;
             border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
@@ -144,26 +146,25 @@
 
         .filter-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
         }
 
         .product-card {
             background: white;
             border-radius: 20px;
-            padding: 24px;
+            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.4s;
             position: relative;
@@ -175,14 +176,25 @@
         }
 
         .product-card.priority {
-            border: 2px solid #f5576c;
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.05) 0%, rgba(245, 87, 108, 0.05) 100%);
+            border: 3px solid #f5576c;
+        }
+
+        .product-card.sent {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #f8f9fa;
         }
 
         .priority-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             padding: 6px 14px;
@@ -190,8 +202,9 @@
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.6);
             animation: pulse 2s infinite;
+            z-index: 10;
         }
 
         @keyframes pulse {
@@ -206,52 +219,100 @@
             }
         }
 
-        .product-header {
-            margin-bottom: 16px;
-            padding-right: 80px;
+        .sent-checkbox {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 3px solid #ff5722;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sent-checkbox:hover {
+            transform: scale(1.15);
+        }
+
+        .sent-checkbox.checked {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-color: #28a745;
+            color: white;
+        }
+
+        .sent-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 167, 69, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .product-card.sent .sent-overlay {
+            opacity: 1;
+        }
+
+        .product-content {
+            padding: 20px;
         }
 
         .product-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             color: #1a1a1a;
             line-height: 1.4;
             margin-bottom: 12px;
+            min-height: 44px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             color: white;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-        }
-
-        .product-info {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 16px;
+            margin-bottom: 12px;
         }
 
         .price-row {
             display: flex;
             align-items: baseline;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin: 12px 0;
             flex-wrap: wrap;
         }
 
         .price-current {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #28a745;
         }
 
         .price-original {
-            font-size: 18px;
+            font-size: 16px;
             color: #999;
             text-decoration: line-through;
         }
@@ -259,38 +320,36 @@
         .discount-badge {
             background: #28a745;
             color: white;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 700;
         }
 
         .product-meta {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            margin: 10px 0;
         }
 
         .copy-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 14px;
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: 12px;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .copy-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.4);
         }
 
         .copy-btn.copied {
@@ -330,9 +389,91 @@
             opacity: 0.3;
         }
 
+        /* Responsivo para dispositivos móveis */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .controls {
+                padding: 15px;
+            }
+
+            .toggle-container {
+                padding: 10px 15px;
+            }
+
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
             .products-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+
+            .product-title {
+                font-size: 15px;
+                min-height: auto;
+            }
+
+            .price-current {
+                font-size: 22px;
+            }
+
+            .price-original {
+                font-size: 14px;
+            }
+
+            .copy-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            #searchInput {
+                padding: 12px 16px !important;
+                font-size: 14px !important;
+            }
+
+            .no-products {
+                padding: 40px 20px;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -342,21 +483,12 @@
     <div class="container">
         <header>
             <h1>📋 Admin - Copiar Mensagens WhatsApp</h1>
-            <p class="subtitle">Clique nos botões para copiar mensagens formatadas. Produtos marcados aparecem primeiro!
-                ⭐</p>
+            <p class="subtitle">Clique no checkbox para marcar como enviado. O status fica salvo! ✅</p>
             <div class="stats">
-                <div class="stat">
-                    <span>📦</span>
-                    <span>Total: <strong id="totalCount">0</strong></span>
-                </div>
-                <div class="stat">
-                    <span>🔍</span>
-                    <span>Visíveis: <strong id="filteredCount">0</strong></span>
-                </div>
-                <div class="stat stat-priority">
-                    <span>⭐</span>
-                    <span>Prioritários: <strong id="priorityCount">0</strong></span>
-                </div>
+                <div class="stat">📦 Total: <strong id="totalCount">0</strong></div>
+                <div class="stat">🔍 Visíveis: <strong id="filteredCount">0</strong></div>
+                <div class="stat stat-priority">⭐ Prioritários: <strong id="priorityCount">0</strong></div>
+                <div class="stat stat-sent">✅ Enviados: <strong id="sentCount">0</strong></div>
             </div>
         </header>
 
@@ -365,13 +497,47 @@
                 <div class="toggle" id="priorityToggle"></div>
                 <span class="toggle-label">Mostrar só prioritários</span>
             </div>
-            <div class="filters-grid">
-                <button class="filter-btn active" data-category="todos">📌 Todos</button>
-                <button class="filter-btn" data-category="Moda Feminina">👗 Moda Feminina</button>
-                <button class="filter-btn" data-category="Moda Masculina">👔 Moda Masculina</button>
-                <button class="filter-btn" data-category="Mãe e Bebê">👶 Mãe e Bebê</button>
-                <button class="filter-btn" data-category="Mercado & Despensa">🛒 Mercado</button>
-                <button class="filter-btn" data-category="Casa">🏠 Casa</button>
+            <div class="toggle-container">
+                <div class="toggle" id="hideSentToggle"></div>
+                <span class="toggle-label">Esconder enviados</span>
+            </div>
+
+            <div style="width: 100%; margin: 20px 0;">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar produtos..."
+                    style="width: 100%; padding: 14px 20px; border: 2px solid #ff5722; border-radius: 12px; font-size: 15px; font-family: inherit; transition: all 0.3s;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #333; font-size: 14px; display: block; margin-bottom: 10px;">💰 Faixa de
+                    Preço:</strong>
+                <div class="filters-grid">
+                    <button class="filter-btn active" data-price="all">Todos</button>
+                    <button class="filter-btn" data-price="0-25">Até R$ 25</button>
+                    <button class="filter-btn" data-price="25-50">R$ 25 - 50</button>
+                    <button class="filter-btn" data-price="50-75">R$ 50 - 75</button>
+                    <button class="filter-btn" data-price="75-100">R$ 75 - 100</button>
+                    <button class="filter-btn" data-price="100-999">Acima de R$ 100</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #333; font-size: 14px; display: block; margin-bottom: 10px;">🔥 Faixa de
+                    Desconto:</strong>
+                <div class="filters-grid">
+                    <button class="filter-btn active" data-discount="all">Todos</button>
+                    <button class="filter-btn" data-discount="0-25">Até 25%</button>
+                    <button class="filter-btn" data-discount="25-40">25% - 40%</button>
+                    <button class="filter-btn" data-discount="40-60">40% - 60%</button>
+                    <button class="filter-btn" data-discount="60-100">Acima de 60%</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <strong style="color: #333; font-size: 14px; display: block; margin-bottom: 10px;">📂
+                    Categoria:</strong>
+                <div class="filters-grid" id="categoriesFilter">
+                    <button class="filter-btn active" data-category="todos">📌 Todos</button>
+                </div>
             </div>
         </div>
 
@@ -383,25 +549,88 @@
         </div>
     </div>
 
-    <!-- Carrega ofertas.js que define window.ACHADINHOS_OFERTAS -->
     <script src="ofertas.js"></script>
 
     <script>
         let allProducts = [];
         let currentFilter = 'todos';
         let showOnlyPriority = false;
+        let hideSent = false;
+        let searchQuery = '';
+        let priceRange = 'all';
+        let discountRange = 'all';
+
+        // LocalStorage para salvar enviados
+        function getSentProducts() {
+            const sent = localStorage.getItem('sentProducts');
+            return sent ? JSON.parse(sent) : [];
+        }
+
+        function saveSentProducts(sentList) {
+            localStorage.setItem('sentProducts', JSON.stringify(sentList));
+        }
+
+        function toggleSent(productId) {
+            let sentList = getSentProducts();
+            if (sentList.includes(productId)) {
+                sentList = sentList.filter(id => id !== productId);
+            } else {
+                sentList.push(productId);
+            }
+            saveSentProducts(sentList);
+            updateSentCount();
+            renderProducts();
+        }
+
+        function isSent(productId) {
+            return getSentProducts().includes(productId);
+        }
+
+        function updateSentCount() {
+            document.getElementById('sentCount').textContent = getSentProducts().length;
+        }
 
         function loadProducts() {
             try {
                 allProducts = window.ACHADINHOS_OFERTAS || [];
                 document.getElementById('totalCount').textContent = allProducts.length;
                 updatePriorityCount();
+                updateSentCount();
+                loadCategories();
                 renderProducts();
             } catch (error) {
-                console.error('Erro ao carregar produtos:', error);
+                console.error('Erro:', error);
                 document.getElementById('productsGrid').innerHTML =
                     '<div class="no-products"><div class="no-products-icon">❌</div><div>Erro ao carregar produtos.</div></div>';
             }
+        }
+
+        function loadCategories() {
+            const categories = [...new Set(allProducts.map(p => p.categoria).filter(Boolean))].sort();
+            const filterContainer = document.getElementById('categoriesFilter');
+
+            filterContainer.innerHTML = '<button class="filter-btn active" data-category="todos">📌 Todos</button>';
+
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.dataset.category = cat;
+                btn.textContent = cat;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = cat;
+                    renderProducts();
+                });
+                filterContainer.appendChild(btn);
+            });
+
+            filterContainer.querySelector('[data-category="todos"]').addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                filterContainer.querySelector('[data-category="todos"]').classList.add('active');
+                currentFilter = 'todos';
+                renderProducts();
+            });
         }
 
         function updatePriorityCount() {
@@ -416,29 +645,77 @@
         }
 
         function formatMessage(product) {
-            const productName = product.titulo || product.productName || 'Produto';
-            const currentPrice = product.preco || product.currentPrice || 0;
-            const link = product.link || product.offerLink || '#';
+            const productName = product.titulo || 'Produto';
+            let priceText = product.preco_promocional || 'R$ 0,00';
+            const priceMatch = priceText.match(/R\$\s*([\d.,]+)/);
+            const currentPrice = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
+            const link = product.link_afiliado || '#';
 
-            let message = `🎯 *${productName}*\n\n`;
-            message += `💰 *R$ ${parseFloat(currentPrice).toFixed(2).replace('.', ',')}*\n`;
-
-            if (product.precoOriginal && product.precoOriginal > currentPrice) {
-                const discount = Math.round(((product.precoOriginal - currentPrice) / product.precoOriginal) * 100);
-                message += `🏷️ De: ~R$ ${parseFloat(product.precoOriginal).toFixed(2).replace('.', ',')}~ (-${discount}%)\n`;
+            // Calcula desconto se existir
+            let discount = 0;
+            let originalPrice = 0;
+            if (product.preco_original) {
+                const originalMatch = product.preco_original.match(/R\$\s*([\d.,]+)/);
+                if (originalMatch) {
+                    originalPrice = parseFloat(originalMatch[1].replace(',', '.'));
+                    if (originalPrice > currentPrice) {
+                        discount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+                    }
+                }
             }
 
-            message += `\n🔗 ${link}`;
+            // Mensagem chamativa e envolvente
+            let message = '';
+
+            // Header com emoji de fogo se tiver desconto bom
+            if (discount >= 40) {
+                message += `🔥🔥 *OFERTA IMPERDÍVEL!* 🔥🔥\n\n`;
+            } else if (discount >= 25) {
+                message += `⚡ *SUPER OFERTA!* ⚡\n\n`;
+            } else {
+                message += `✨ *ACHADO DO DIA!* ✨\n\n`;
+            }
+
+            // Nome do produto
+            message += `${productName}\n\n`;
+
+            // Preço com destaque
+            if (discount > 0) {
+                message += `💸 *APENAS R$ ${currentPrice.toFixed(2).replace('.', ',')}*\n`;
+                message += `~~De R$ ${originalPrice.toFixed(2).replace('.', ',')}~~\n`;
+                message += `🎉 *${discount}% OFF!*\n\n`;
+            } else {
+                message += `💰 *R$ ${currentPrice.toFixed(2).replace('.', ',')}*\n\n`;
+            }
+
+            // Informações extras se existirem
+            if (product.vendas) {
+                const vendasNum = product.vendas.match(/\d+/);
+                if (vendasNum && parseInt(vendasNum[0]) > 1000) {
+                    message += `⭐ Mais de ${vendasNum[0]} pessoas já compraram!\n`;
+                }
+            }
+
+            if (product.nota) {
+                const nota = parseFloat(product.nota);
+                if (nota >= 4.5) {
+                    message += `⭐⭐⭐⭐⭐ Avaliação ${product.nota}\n`;
+                }
+            }
+
+            // Call to action urgente
+            message += `\n⏰ *Corre que tá acabando!*\n`;
+            message += `👇 Clica aqui pra garantir o seu:\n`;
+            message += `${link}\n\n`;
+            message += `_Achadinhos +Vendidos 🛍️🔥_`;
+
             return message;
         }
 
         function copyToClipboard(text, button) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showCopied(button);
-                }).catch(() => {
-                    fallbackCopy(text, button);
-                });
+                navigator.clipboard.writeText(text).then(() => showCopied(button))
+                    .catch(() => fallbackCopy(text, button));
             } else {
                 fallbackCopy(text, button);
             }
@@ -451,14 +728,10 @@
             textarea.style.opacity = '0';
             document.body.appendChild(textarea);
             textarea.select();
-
             try {
                 document.execCommand('copy');
                 showCopied(button);
-            } catch (err) {
-                alert('Erro ao copiar.');
-            }
-
+            } catch (err) { alert('Erro ao copiar.'); }
             document.body.removeChild(textarea);
         }
 
@@ -466,7 +739,6 @@
             const originalText = button.textContent;
             button.textContent = '✅ Copiado!';
             button.classList.add('copied');
-
             setTimeout(() => {
                 button.textContent = originalText;
                 button.classList.remove('copied');
@@ -477,66 +749,111 @@
             const grid = document.getElementById('productsGrid');
             let filtered = allProducts;
 
+            // Filtro por categoria
             if (currentFilter !== 'todos') {
-                filtered = filtered.filter(p => p.nicho === currentFilter || p.niche === currentFilter);
+                filtered = filtered.filter(p => p.categoria === currentFilter);
             }
 
+            // Filtro por prioridade
             if (showOnlyPriority) {
                 filtered = filtered.filter(p => isPriority(p));
             }
 
-            filtered.sort((a, b) => {
-                const aPriority = isPriority(a) ? 1 : 0;
-                const bPriority = isPriority(b) ? 1 : 0;
-                return bPriority - aPriority;
-            });
+            // Filtro por enviados
+            if (hideSent) {
+                filtered = filtered.filter(p => !isSent(p.id));
+            }
+
+            // Filtro por busca
+            if (searchQuery.trim()) {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(p =>
+                    (p.titulo || '').toLowerCase().includes(query) ||
+                    (p.categoria || '').toLowerCase().includes(query) ||
+                    (p.loja || '').toLowerCase().includes(query)
+                );
+            }
+
+            // Filtro por faixa de preço
+            if (priceRange !== 'all') {
+                const [min, max] = priceRange.split('-').map(Number);
+                filtered = filtered.filter(p => {
+                    const priceText = p.preco_promocional || 'R$ 0,00';
+                    const priceMatch = priceText.match(/R\$\s*([\d.,]+)/);
+                    const price = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
+                    return price >= min && price <= max;
+                });
+            }
+
+            // Filtro por faixa de desconto
+            if (discountRange !== 'all') {
+                const [minDisc, maxDisc] = discountRange.split('-').map(Number);
+                filtered = filtered.filter(p => {
+                    if (!p.preco_original) return minDisc === 0;
+                    const originalMatch = p.preco_original.match(/R\$\s*([\d.,]+)/);
+                    const priceText = p.preco_promocional || 'R$ 0,00';
+                    const priceMatch = priceText.match(/R\$\s*([\d.,]+)/);
+                    if (!originalMatch || !priceMatch) return false;
+                    const originalPrice = parseFloat(originalMatch[1].replace(',', '.'));
+                    const currentPrice = parseFloat(priceMatch[1].replace(',', '.'));
+                    const discount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+                    return discount >= minDisc && discount <= maxDisc;
+                });
+            }
+
+            // Ordenar prioritários primeiro
+            filtered.sort((a, b) => (isPriority(b) ? 1 : 0) - (isPriority(a) ? 1 : 0));
 
             document.getElementById('filteredCount').textContent = filtered.length;
 
             if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-products">
-                        <div class="no-products-icon">🔍</div>
-                        <div>${showOnlyPriority ? 'Nenhum produto prioritário' : 'Nenhum produto nesta categoria'}</div>
-                    </div>
-                `;
+                grid.innerHTML = `<div class="no-products"><div class="no-products-icon">🔍</div><div>${hideSent ? 'Todos foram enviados!' : showOnlyPriority ? 'Nenhum produto prioritário' : 'Nenhum produto nesta categoria'}</div></div>`;
                 return;
             }
 
             grid.innerHTML = filtered.map(product => {
                 const message = formatMessage(product);
-                const currentPrice = product.preco || product.currentPrice || 0;
-                const originalPrice = product.precoOriginal || product.originalPrice;
-                const discount = originalPrice && originalPrice > currentPrice ?
-                    Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
+                const priceText = product.preco_promocional || 'R$ 0,00';
+                const priceMatch = priceText.match(/R\$\s*([\d.,]+)/);
+                const currentPrice = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
+
+                let discount = 0;
+                if (product.preco_original) {
+                    const originalMatch = product.preco_original.match(/R\$\s*([\d.,]+)/);
+                    if (originalMatch) {
+                        const originalPrice = parseFloat(originalMatch[1].replace(',', '.'));
+                        if (originalPrice > currentPrice) {
+                            discount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+                        }
+                    }
+                }
+
                 const priority = isPriority(product);
-                const title = product.titulo || product.productName || 'Produto';
-                const niche = product.nicho || product.niche || 'Geral';
+                const sent = isSent(product.id);
 
                 return `
-                    <div class="product-card ${priority ? 'priority' : ''}">
+                    <div class="product-card ${priority ? 'priority' : ''} ${sent ? 'sent' : ''}">
                         ${priority ? '<div class="priority-badge">⭐ Prioritário</div>' : ''}
-                        <div class="product-header">
-                            <div class="product-title">${title}</div>
-                            <div class="product-badge">${niche}</div>
+                        <div class="sent-checkbox ${sent ? 'checked' : ''}" onclick="event.stopPropagation(); toggleSent('${product.id}')">
+                            ${sent ? '✓' : ''}
                         </div>
-                        
-                        <div class="product-info">
+                        ${sent ? '<div class="sent-overlay">✅</div>' : ''}
+                        <img src="${product.imagem_url}" alt="${product.titulo}" class="product-image" loading="lazy">
+                        <div class="product-content">
+                            <div class="product-badge">${product.categoria || 'Geral'}</div>
+                            <div class="product-title">${product.titulo || 'Produto'}</div>
                             <div class="price-row">
-                                <div class="price-current">R$ ${parseFloat(currentPrice).toFixed(2).replace('.', ',')}</div>
-                                ${originalPrice && originalPrice > currentPrice ?
-                        `<div class="price-original">R$ ${parseFloat(originalPrice).toFixed(2).replace('.', ',')}</div>
-                                     <div class="discount-badge">-${discount}%</div>` : ''}
+                                <div class="price-current">R$ ${currentPrice.toFixed(2).replace('.', ',')}</div>
+                                ${discount > 0 ? `<div class="price-original">${product.preco_original}</div><div class="discount-badge">-${discount}%</div>` : ''}
                             </div>
                             <div class="product-meta">
-                                ${product.loja || product.shopName ? `<div>🏪 ${product.loja || product.shopName}</div>` : ''}
-                                ${product.vendas || product.salesCount ? `<div>📦 ${product.vendas || product.salesCount} vendidos</div>` : ''}
+                                ${product.loja ? `🏪 ${product.loja}` : ''}
+                                ${product.vendas ? ` • ${product.vendas}` : ''}
                             </div>
+                            <button class="copy-btn" onclick='copyToClipboard(\`${message.replace(/`/g, '\\`')}\`, this)'>
+                                📋 Copiar Mensagem
+                            </button>
                         </div>
-                        
-                        <button class="copy-btn" onclick='copyToClipboard(\`${message.replace(/`/g, '\\`')}\`, this)'>
-                            📋 Copiar Mensagem
-                        </button>
                     </div>
                 `;
             }).join('');
@@ -548,16 +865,38 @@
             renderProducts();
         });
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
+        document.getElementById('hideSentToggle').addEventListener('click', function () {
+            this.classList.toggle('active');
+            hideSent = this.classList.contains('active');
+            renderProducts();
+        });
+
+        // Event listener para busca
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        // Event listeners para filtros de preço
+        document.querySelectorAll('[data-price]').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('[data-price]').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                currentFilter = btn.dataset.category;
+                priceRange = btn.dataset.price;
                 renderProducts();
             });
         });
 
-        // Aguarda carregamento do ofertas.js
+        // Event listeners para filtros de desconto
+        document.querySelectorAll('[data-discount]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-discount]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                discountRange = btn.dataset.discount;
+                renderProducts();
+            });
+        });
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', loadProducts);
         } else {
